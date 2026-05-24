@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block page_title %}Patient Profile{% endblock %}
+{% block content %}
+<section class="profile-head glass-card">
+  <div class="avatar-xl">{{ patient.full_name[0] }}</div>
+  <div><h2>{{ patient.full_name }}</h2><p>{{ patient.age }} years · {{ patient.gender }} · Blood {{ patient.blood_group }}</p></div>
+  <div class="profile-actions">
+    {% if session.get('role') in ['Admin','Receptionist','Doctor'] %}<a class="btn btn-primary" href="{{ url_for('patients.edit_patient', patient_id=patient.id) }}">Edit</a>{% endif %}
+    {% if session.get('role') == 'Admin' %}<form method="post" action="{{ url_for('patients.delete_patient', patient_id=patient.id) }}">{{ csrf_token() }}<button class="btn btn-outline-danger" onclick="return confirm('Delete this patient?')">Delete</button></form>{% endif %}
+  </div>
+</section>
+<div class="dashboard-grid">
+  <section class="panel"><h3>Contact details</h3><p>{{ patient.contact }}</p><p>{{ patient.email }}</p><p>{{ patient.address }}</p></section>
+  <section class="panel"><h3>Clinical summary</h3><p><strong>Diagnosis:</strong> {{ patient.diagnosis }}</p><p><strong>History:</strong> {{ patient.medical_history }}</p><p><strong>Prescriptions:</strong> {{ patient.prescriptions }}</p></section>
+</div>
+<div class="dashboard-grid">
+  <section class="panel"><div class="panel-head"><h3>Appointments</h3></div>{% for a in patient.appointments %}<div class="timeline-item"><span>{{ a.scheduled_at.strftime('%d %b %I:%M %p') }}</span><strong>{{ a.doctor.name }}</strong><small>{{ a.reason }} · {{ a.status }}</small></div>{% else %}<p class="empty">No appointments.</p>{% endfor %}</section>
+  <section class="panel"><div class="panel-head"><h3>Medical records</h3></div>{% for r in patient.records %}<div class="timeline-item"><span>{{ r.recorded_at.strftime('%d %b %Y') }}</span><strong>{{ r.title }}</strong><small>{{ r.treatment }}</small></div>{% else %}<p class="empty">No records.</p>{% endfor %}</section>
+</div>
+{% endblock %}

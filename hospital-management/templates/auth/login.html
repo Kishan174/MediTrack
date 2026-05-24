@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Sign in | Meditrack{% endblock %}
+{% block auth_content %}
+<main class="auth-page">
+  <section class="auth-visual">
+    <div class="pulse-orbit">
+      <i class="fa-solid fa-staff-snake"></i>
+    </div>
+    <h1>Meditrack</h1>
+    <p>Premium patient record tracking for coordinated hospital teams.</p>
+    <div class="auth-metrics">
+      <div><strong>24/7</strong><span>Care desk</span></div>
+      <div><strong>98%</strong><span>Record accuracy</span></div>
+      <div><strong>3</strong><span>Secure roles</span></div>
+    </div>
+  </section>
+  <section class="auth-card glass-card">
+    <div class="brand auth-brand"><span class="brand-mark"><i class="fa-solid fa-heart-pulse"></i></span><span>Meditrack</span></div>
+    <h2>Welcome back</h2>
+    <p class="text-muted">Use one of the seeded demo accounts below.</p>
+    <form method="post" class="mt-4">
+      {{ form.hidden_tag() }}
+      <label class="form-label">{{ form.email.label }}</label>
+      {{ form.email(class="form-control form-control-lg", placeholder="admin@meditrack.com") }}
+      <label class="form-label mt-3">{{ form.password.label }}</label>
+      {{ form.password(class="form-control form-control-lg", placeholder="admin123") }}
+      {{ form.submit(class="btn btn-primary btn-lg w-100 mt-4") }}
+    </form>
+    <div class="demo-logins">
+      <span>Admin: admin@meditrack.com / admin123</span>
+      <span>Doctor: doctor@meditrack.com / doctor123</span>
+      <span>Reception: reception@meditrack.com / reception123</span>
+    </div>
+  </section>
+</main>
+{% endblock %}

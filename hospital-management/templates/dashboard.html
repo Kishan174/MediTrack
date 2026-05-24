@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block page_title %}Dashboard{% endblock %}
+{% block content %}
+<div class="hero-band">
+  <div>
+    <p class="eyebrow">Live hospital command center</p>
+    <h2>Calm, connected care operations.</h2>
+    <p>Track patients, appointments, doctors, records, and activity from one responsive workspace.</p>
+  </div>
+  <div class="hero-illustration">
+    <i class="fa-solid fa-user-doctor"></i>
+    <span></span>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card glass-card"><i class="fa-solid fa-bed-pulse"></i><span>Total patients</span><strong class="counter" data-target="{{ stats.patients }}">0</strong></div>
+  <div class="stat-card glass-card"><i class="fa-regular fa-calendar-check"></i><span>Appointments today</span><strong class="counter" data-target="{{ stats.appointments_today }}">0</strong></div>
+  <div class="stat-card glass-card"><i class="fa-solid fa-user-doctor"></i><span>Doctors available</span><strong class="counter" data-target="{{ stats.doctors_available }}">0</strong></div>
+  <div class="stat-card glass-card"><i class="fa-solid fa-file-waveform"></i><span>Medical records</span><strong class="counter" data-target="{{ stats.records }}">0</strong></div>
+</div>
+
+<div class="dashboard-grid">
+  <section class="panel">
+    <div class="panel-head"><h3>Appointment analytics</h3><span>Status distribution</span></div>
+    <canvas id="appointmentChart" height="130"></canvas>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h3>Patient mix</h3><span>Demographic overview</span></div>
+    <canvas id="patientChart" height="130"></canvas>
+  </section>
+</div>
+
+<div class="dashboard-grid">
+  <section class="panel">
+    <div class="panel-head"><h3>Today's appointments</h3><a href="{{ url_for('appointments.create_appointment') }}">Book new</a></div>
+    <div class="timeline">
+      {% for appt in todays_appointments %}
+      <div class="timeline-item"><span>{{ appt.scheduled_at.strftime('%I:%M %p') }}</span><strong>{{ appt.patient.full_name }}</strong><small>{{ appt.doctor.name }} · {{ appt.status }}</small></div>
+      {% else %}<p class="empty">No appointments today.</p>{% endfor %}
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h3>Recent patient activity</h3><a href="{{ url_for('patients.list_patients') }}">View all</a></div>
+    {% for patient in recent_patients %}
+      <a class="activity-row" href="{{ url_for('patients.profile', patient_id=patient.id) }}"><span>{{ patient.full_name[0] }}</span><div><strong>{{ patient.full_name }}</strong><small>{{ patient.diagnosis or 'New profile' }}</small></div></a>
+    {% endfor %}
+  </section>
+</div>
+
+<section class="panel">
+  <div class="panel-head"><h3>Audit logs</h3><span>Security trail</span></div>
+  <div class="table-responsive">
+    <table class="table align-middle">
+      <tbody>
+        {% for log in logs %}
+        <tr><td>{{ log.created_at.strftime('%d %b, %I:%M %p') }}</td><td>{{ log.user_name }}</td><td>{{ log.action }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script>window.MEDITRACK_ANALYTICS_URL = "{{ url_for('dashboard.analytics') }}";</script>
+{% endblock %}

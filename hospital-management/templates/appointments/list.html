@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block page_title %}Appointments{% endblock %}
+{% block content %}
+<div class="toolbar">
+  <form method="get"><select name="status" class="form-select" onchange="this.form.submit()"><option value="">All statuses</option>{% for s in ['Scheduled','Checked In','Completed','Cancelled'] %}<option value="{{ s }}" {% if status==s %}selected{% endif %}>{{ s }}</option>{% endfor %}</select></form>
+  {% if session.get('role') in ['Admin','Receptionist'] %}<a class="btn btn-primary" href="{{ url_for('appointments.create_appointment') }}"><i class="fa-solid fa-calendar-plus"></i> Book appointment</a>{% endif %}
+</div>
+<section class="calendar-panel">
+  {% for appointment in appointments %}
+  <article class="calendar-card {{ appointment.status|lower|replace(' ', '-') }}">
+    <time>{{ appointment.scheduled_at.strftime('%d %b') }}<strong>{{ appointment.scheduled_at.strftime('%I:%M %p') }}</strong></time>
+    <div><h3>{{ appointment.patient.full_name }}</h3><p>{{ appointment.reason }}</p><small>{{ appointment.doctor.name }} · {{ appointment.status }}</small></div>
+    <div class="card-actions"><a class="btn btn-sm btn-light" href="{{ url_for('appointments.edit_appointment', appointment_id=appointment.id) }}">Edit</a>{% if appointment.status != 'Cancelled' and session.get('role') in ['Admin','Receptionist'] %}<form method="post" action="{{ url_for('appointments.cancel_appointment', appointment_id=appointment.id) }}">{{ csrf_token() }}<button class="btn btn-sm btn-outline-danger">Cancel</button></form>{% endif %}</div>
+  </article>
+  {% else %}<p class="empty">No appointments found.</p>{% endfor %}
+</section>
+{% endblock %}

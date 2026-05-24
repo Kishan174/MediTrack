@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block page_title %}Doctors{% endblock %}
+{% block content %}
+<div class="toolbar">{% if session.get('role') == 'Admin' %}<a class="btn btn-primary ms-auto" href="{{ url_for('doctors.create_doctor') }}"><i class="fa-solid fa-plus"></i> Add doctor</a>{% endif %}</div>
+<div class="doctor-grid">
+  {% for doctor in doctors %}
+  <article class="doctor-card glass-card">
+    <div class="doctor-icon"><i class="fa-solid fa-user-doctor"></i></div>
+    <h3>{{ doctor.name }}</h3><p>{{ doctor.specialization }}</p>
+    <span class="badge-soft">{{ 'Available' if doctor.active else 'Unavailable' }}</span>
+    <ul><li><i class="fa-regular fa-clock"></i>{{ doctor.availability }}</li><li><i class="fa-solid fa-location-dot"></i>{{ doctor.room or 'Room TBD' }}</li><li><i class="fa-solid fa-phone"></i>{{ doctor.phone }}</li></ul>
+    <small>{{ doctor.bio }}</small>
+    {% if session.get('role') == 'Admin' %}<div class="card-actions"><a class="btn btn-sm btn-light" href="{{ url_for('doctors.edit_doctor', doctor_id=doctor.id) }}">Edit</a><form method="post" action="{{ url_for('doctors.delete_doctor', doctor_id=doctor.id) }}">{{ csrf_token() }}<button class="btn btn-sm btn-outline-danger">Remove</button></form></div>{% endif %}
+  </article>
+  {% endfor %}
+</div>
+{% endblock %}

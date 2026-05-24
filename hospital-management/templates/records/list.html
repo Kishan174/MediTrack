@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block page_title %}Medical Records{% endblock %}
+{% block content %}
+<div class="toolbar">{% if session.get('role') in ['Admin','Doctor'] %}<a class="btn btn-primary ms-auto" href="{{ url_for('records.create_record') }}"><i class="fa-solid fa-plus"></i> Add record</a>{% endif %}</div>
+<section class="panel">
+  <div class="table-responsive">
+    <table class="table interactive-table align-middle">
+      <thead><tr><th>Patient</th><th>Record</th><th>Treatment</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+      {% for record in records %}
+      <tr><td><strong>{{ record.patient.full_name }}</strong></td><td>{{ record.title }}</td><td>{{ record.treatment }}</td><td>{{ record.recorded_at.strftime('%d %b %Y') }}</td><td class="text-end"><a class="btn btn-sm btn-light" href="{{ url_for('records.download_pdf', record_id=record.id) }}"><i class="fa-solid fa-file-pdf"></i> PDF</a></td></tr>
+      {% else %}<tr><td colspan="5" class="empty">No records yet.</td></tr>{% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}
