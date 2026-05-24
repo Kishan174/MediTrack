@@ -211,11 +211,6 @@ Add screenshots here for:
 * Appointment Booking
 * Analytics Charts
 
-Example:
-
-markdown
-![Dashboard Screenshot](static/images/dashboard.png)
-
 ---
 
 # 🔒 Security Notes
