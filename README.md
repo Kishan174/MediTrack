@@ -6,6 +6,7 @@ It helps hospitals and clinics manage patients, doctors, appointments, medical r
 The project is designed with a modern UI, authentication system, dashboard analytics, PDF generation, CSV exports, and responsive pages.
 
 🚀 Features
+
 🔐 Authentication & Authorization
 Session-based login system
 Role-based access:
@@ -14,26 +15,31 @@ Doctor
 Receptionist
 Secure password handling
 Access control for protected routes
+
 👨‍⚕️ Patient Management
 Add, edit, delete, and search patients
 Patient profile pages
 Pagination support
 CSV export functionality
 Search suggestions/autocomplete
+
 🩺 Doctor Management
 Doctor profiles
 Specialization management
 Availability tracking
+
 📅 Appointment System
 Book appointments
 Reschedule appointments
 Cancel appointments
 Appointment status tracking
 Calendar-style appointment cards
+
 📁 Medical Records
 Upload medical documents
 Store patient medical history
 Download PDF medical reports
+
 📊 Dashboard & Analytics
 Dashboard summary cards
 Analytics charts and statistics
@@ -41,6 +47,7 @@ Animated counters
 Notifications system
 Dark/Light mode support
 Audit logs
+
 🛠️ Technologies Used
 Frontend
 HTML5
@@ -61,6 +68,7 @@ Other Tools
 PDF Report Generation
 CSV Export
 File Upload System
+
 📂 Project Structure
 Meditrack/
 │
@@ -84,6 +92,7 @@ Role	Email	Password
 Admin	admin@meditrack.com	admin123
 Doctor	doctor@meditrack.com	doctor123
 Receptionist	reception@meditrack.com	reception123
+
 ⚙️ Installation & Setup
 1️⃣ Clone the Repository
 git clone https://github.com/your-username/meditrack.git
@@ -141,6 +150,7 @@ Use environment variables
 Enable HTTPS
 Store uploads outside public static folders
 Use a production WSGI server like Gunicorn or Waitress
+
 🎯 Future Enhancements
 Email notifications
 SMS appointment reminders
